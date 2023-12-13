@@ -6,26 +6,24 @@ import threading
 print("Server running!")
 app = Flask(__name__)
 
-assign_id = 0
+assign_post_id = 0
 all_posts = {}
 lock_state = threading.Lock()
 
 @app.route('/post', methods = ['POST'])
 def new_post():
     with lock_state:
-        global assign_id, all_posts
+        global assign_post_id, all_posts, users
         file_type = request.headers.get('Content-Type')
 
         if (file_type == 'application/json'):
             input_data = request.get_json()
 
-            if not 'msg' in input_data:
-                return jsonify({'err': 'Missing msg field'}), 400
-            else:
+            if 'msg' in input_data:
                 input_msg = input_data['msg']
 
-                post_id = assign_id
-                assign_id += 1
+                post_id = assign_post_id
+                assign_post_id += 1
                 post_key = secrets.token_hex(16)
                 post = {
                     'id': post_id,
@@ -42,9 +40,11 @@ def new_post():
                     'key': post_key,
                     'timestamp': post['timestamp']
                 })
-
+            else:
+                return jsonify({'err':'Missing msg field'}), 400
+        
         else:
-            return jsonify({'err': 'Bad request'}), 400
+            return jsonify({'err':'Bad request'}), 400
     
 @app.route('/post/<int:inp_id>', methods = ['GET'])
 def get_post(inp_id):
@@ -52,7 +52,7 @@ def get_post(inp_id):
         global all_posts
 
         if inp_id not in all_posts:
-            return jsonify({'err': 'Post not found'}), 404
+            return jsonify({'err':'Post not found'}), 404
         
         else:
             my_post = all_posts[inp_id]
