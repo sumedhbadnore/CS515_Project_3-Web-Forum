@@ -42,3 +42,18 @@ def new_post():
 
     else:
         return jsonify({'err': 'Bad request'}), 400
+    
+@app.route('/post/<int:inp_id>', methods = ['GET'])
+def get_post(inp_id):
+    global all_posts
+
+    if inp_id not in all_posts:
+        return jsonify({'err': 'Post not found'}), 404
+    
+    else:
+        my_post = all_posts[inp_id]
+        return jsonify({
+            'id': my_post.get('id'),
+            'timestamp': my_post.get('timestamp'),
+            'msg': my_post.get('msg')
+        })
