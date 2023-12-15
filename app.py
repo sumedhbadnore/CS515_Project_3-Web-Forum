@@ -22,32 +22,6 @@ def new_post():
             input_data = request.get_json()
 
             if 'msg' in input_data:
-                if 'userid' in input_data:
-                    if input_data['userid'] in users:
-                        input_msg = input_data['msg']
-                        user_id = input_data['userid']
-                        post_id = assign_post_id
-                        assign_post_id += 1
-                        post_key = secrets.token_hex(16)
-                        post = {
-                            'id': post_id,
-                            'key': post_key,
-                            'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                            'msg': input_msg,
-                            'userid': user_id
-                        }
-                        print(input_msg)     # Testing purpose
-                        print(post_key)      # Testing purpose   
-                        all_posts[post_id] = post
-
-                        return jsonify({
-                            'id': post_id,
-                            'key': post_key,
-                            'timestamp': post['timestamp'],
-                            'userid': user_id
-                        })
-                else:
-                    pass
                 input_msg = input_data['msg']
 
                 post_id = assign_post_id
@@ -59,15 +33,37 @@ def new_post():
                     'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                     'msg': input_msg
                 }
-                print(input_msg)     # Testing purpose
-                print(post_key)      # Testing purpose   
+
+                # print(input_msg)     # Testing purpose
+                # print(post_key)      # Testing purpose  
+
+                if 'userid' in input_data:
+                    if input_data['userid'] in users:
+                        user_id = input_data['userid']
+                    
+                        post["userid"] = user_id
+                
+                if "replyId" in input_data:
+                    replyId = input_data["replyId"]
+
+                    if replyId in all_posts.keys():
+                        ogpost = all_posts[replyId]
+
+                        post["replyId"] = replyId
+
+                        if "replies" not in ogpost.keys():
+                            replies = [post_id]
+                            ogpost["replies"] = replies
+                        else:
+                            ogpost["replies"].append(post_id)
+                        
+                        all_posts[replyId] = ogpost
+
+
+                 
                 all_posts[post_id] = post
 
-                return jsonify({
-                    'id': post_id,
-                    'key': post_key,
-                    'timestamp': post['timestamp']
-                })
+                return jsonify(post)
             else:
                 return jsonify({'err':'Missing msg field'}), 400
         
@@ -84,6 +80,13 @@ def get_post(inp_id):
         
         else:
             my_post = all_posts[inp_id]
+            if "replies" in my_post.keys():
+                return jsonify({
+                'id': my_post.get('id'),
+                'timestamp': my_post.get('timestamp'),
+                'msg': my_post.get('msg'),
+                'replies': my_post.get('replies')
+                })
             return jsonify({
                 'id': my_post.get('id'),
                 'timestamp': my_post.get('timestamp'),
