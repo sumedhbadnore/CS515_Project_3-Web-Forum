@@ -224,5 +224,26 @@ def search_thread(postId):
             else:
                 return jsonify({"err": "No Threads available for the given post."}), 400
 
+@app.route("/user/search/<int:userId>", methods = ["GET"])
+def search_user(userId):
+    with lock_state:
+        exists = False
+        for user in users:
+            if user == userId:
+                exists = True
+        
+        if not exists:
+            return jsonify({"err": "Invalid User Id."}), 400
+
+        user_posts = []
+
+        for p in all_posts:
+            post = all_posts[p]
+            if "userid" in post.keys():
+                if post.get("userid") == userId:
+                    user_posts.append(post)
+        
+        return jsonify({"posts": user_posts})
+
 if __name__ == '__main__':
     app.run(debug=True)
