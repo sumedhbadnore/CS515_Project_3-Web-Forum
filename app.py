@@ -184,6 +184,45 @@ def search_date_time():
             return jsonify({"err": "Invalid datetime format. Use YYYY-MM-DD HH:MM:SS"}), 400
 
 
+def get_thread_posts(post_id):
+    if post_id not in all_posts:
+        return None
+    
+    thread_posts = [post_id]
+    replies = all_posts[post_id].get("replies", [])
+
+    for reply_id in replies:
+        thread_posts.extend(get_thread_posts(reply_id))
+    
+    # if "replyId" in all_posts[post_id] and all_posts[post_id]["replyId"] not in thread_posts:
+    #     temp = all_posts[post_id]["replyId"]
+    #     thread_posts.insert(0,temp)
+
+    return thread_posts
+
+@app.route("/thread/<int:postId>", methods = ["GET"])
+def search_thread(postId):
+    with lock_state:
+        if postId in all_posts.keys():
+            post = all_posts[postId]
+
+            replies_arr = []
+
+            if "replies" in post.keys():
+                replies_arr = get_thread_posts(postId)
+            
+                full_replies_arr = []
+
+                for i in replies_arr:
+                    full_replies_arr.append(all_posts[i])
+
+                    # if "replyId" in all_posts[i] and all_posts[i]["replyId"] not in replies_arr:
+                    #     temp = all_posts[i]["replyId"]
+                    #     full_replies_arr.insert(0,all_posts[temp])
+
+                return jsonify({"replies": full_replies_arr})
+            else:
+                return jsonify({"err": "No Threads available for the given post."}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)
