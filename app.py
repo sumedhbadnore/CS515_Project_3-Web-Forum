@@ -32,7 +32,7 @@ def new_post():
                         post = {
                             'id': post_id,
                             'key': post_key,
-                            'timestamp': datetime.utcnow().isoformat(),
+                            'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                             'msg': input_msg,
                             'userid': user_id
                         }
@@ -56,7 +56,7 @@ def new_post():
                 post = {
                     'id': post_id,
                     'key': post_key,
-                    'timestamp': datetime.utcnow().isoformat(),
+                    'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                     'msg': input_msg
                 }
                 print(input_msg)     # Testing purpose
@@ -152,3 +152,36 @@ def create_user():
         else:
             print("Triggered")
             return jsonify({'err':'Bad request'}), 400
+
+@app.route('/searchposts')
+def search_date_time():
+    with lock_state:
+        start_datetime_str = request.args.get('start_datetime')
+        end_datetime_str = request.args.get('end_datetime')
+
+        try:
+            start_datetime = datetime.strptime(start_datetime_str, "%Y-%m-%d %H:%M:%S") if start_datetime_str else None
+            end_datetime = datetime.strptime(end_datetime_str, "%Y-%m-%d %H:%M:%S") if end_datetime_str else None
+
+            filtered_posts = []
+
+            # print(all_posts)
+
+            for post in all_posts:
+                my_post = all_posts[post]
+                post_timestamp = datetime.strptime(my_post.get("timestamp"), "%Y-%m-%d %H:%M:%S")
+
+                if start_datetime and post_timestamp < start_datetime:
+                    continue
+
+                if end_datetime and post_timestamp > end_datetime:
+                    continue
+
+                filtered_posts.append(my_post)
+
+            return jsonify({"posts": filtered_posts})
+        except ValueError:
+            return jsonify({"error": "Invalid datetime format. Use YYYY-MM-DD HH:MM:SS"}), 400
+
+if __name__ == '__main__':
+    app.run(debug=True)
