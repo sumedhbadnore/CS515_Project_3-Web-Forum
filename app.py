@@ -34,9 +34,6 @@ def new_post():
                     'msg': input_msg
                 }
 
-                # print(input_msg)     # Testing purpose
-                # print(post_key)      # Testing purpose  
-
                 if 'userid' in input_data:
                     if input_data['userid'] in users:
                         user_id = input_data['userid']
@@ -185,6 +182,8 @@ def search_date_time():
             return jsonify({"posts": filtered_posts})
         except ValueError:
             return jsonify({"err": "Invalid datetime format. Use YYYY-MM-DD HH:MM:SS"}), 400
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
