@@ -181,7 +181,7 @@ def search_date_time():
 
             return jsonify({"posts": filtered_posts})
         except ValueError:
-            return jsonify({"error": "Invalid datetime format. Use YYYY-MM-DD HH:MM:SS"}), 400
+            return jsonify({"err": "Invalid datetime format. Use YYYY-MM-DD HH:MM:SS"}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)
