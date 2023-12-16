@@ -90,29 +90,46 @@ def get_post(inp_id):
                 'msg': my_post.get('msg')
             })
         
-@app.route('/post/<int:inp_id>/delete/<string:inp_key>', methods = ['DELETE'])
-def delete_post(inp_id, inp_key):
+@app.route("/post/<int:post_id>/delete/<string:inp_key>", methods=['DELETE'])
+def delete_post(post_id, inp_key):
     with lock_state:
-        global all_posts
+        if post_id not in all_posts:
+            return jsonify({"err": "Post not found"}), 404
 
-        if inp_id not in all_posts:
-            return jsonify({'err':'Post not found'}), 404
-        
+        my_post = all_posts[post_id]
+        if my_post['key'] == inp_key:
+            deleted_post = {
+                'id': my_post.get('id'),
+                'key': my_post.get('key'),
+                'timestamp': my_post.get('timestamp')
+            }
+            del all_posts[post_id]
+            return jsonify(deleted_post), 200
         else:
-            my_post = all_posts[inp_id]
-            if my_post['key'] == inp_key:       # Delete using user key too
-                del all_posts[inp_id]
-                print("Deleted Successfully!")          # Testing purpose
-                return jsonify({
-                    'id': my_post.get('id'),
-                    'key': my_post.get('key'),
-                    'timestamp': my_post.get('timestamp')
-                })
-            
-            else:
-                return jsonify({'err':'Forbidden'}), 403
+            return jsonify({"err": "Forbidden"}), 403
+        
+# @app.route('/post/<int:inp_id>/delete/<string:inp_key>', methods = ['DELETE'])
+# def delete_post(inp_id, inp_key):
+#     with lock_state:
+#         global all_posts
 
-# Part of Extension 1            
+#         if inp_id not in all_posts:
+#             return jsonify({'err':'Post not found'}), 404
+        
+#         else:
+#             my_post = all_posts[inp_id]
+#             if my_post['key'] == inp_key:
+#                 del all_posts[inp_id]
+#                 print("Deleted Successfully!")          # Testing purpose
+#                 return jsonify({
+#                     'id': my_post.get('id'),
+#                     'key': my_post.get('key'),
+#                     'timestamp': my_post.get('timestamp')
+#                 })
+            
+#             else:
+#                 return jsonify({'err':'Forbidden'}), 403
+            
 @app.route('/user/create', methods = ['POST'])
 def create_user():
     with lock_state:
