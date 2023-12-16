@@ -34,12 +34,14 @@ def new_post():
                     'msg': input_msg
                 }
 
+                # Extension 1 User and User key
                 if 'userid' in input_data:
                     if input_data['userid'] in users:
                         user_id = input_data['userid']
                     
                         post["userid"] = user_id
-                
+
+                # Extension 2 Replies
                 if "replyId" in input_data:
                     replyId = input_data["replyId"]
 
@@ -56,8 +58,6 @@ def new_post():
                         
                         all_posts[replyId] = ogpost
 
-
-                 
                 all_posts[post_id] = post
 
                 return jsonify(post)
@@ -100,7 +100,7 @@ def delete_post(inp_id, inp_key):
         
         else:
             my_post = all_posts[inp_id]
-            if my_post['key'] == inp_key:
+            if my_post['key'] == inp_key:       # Delete using user key too
                 del all_posts[inp_id]
                 print("Deleted Successfully!")          # Testing purpose
                 return jsonify({
@@ -111,7 +111,8 @@ def delete_post(inp_id, inp_key):
             
             else:
                 return jsonify({'err':'Forbidden'}), 403
-            
+
+# Part of Extension 1            
 @app.route('/user/create', methods = ['POST'])
 def create_user():
     with lock_state:
@@ -153,6 +154,7 @@ def create_user():
             print("Triggered")
             return jsonify({'err':'Bad request'}), 400
 
+# Extension 3: Date-Time search
 @app.route('/searchposts')
 def search_date_time():
     with lock_state:
@@ -183,7 +185,7 @@ def search_date_time():
         except ValueError:
             return jsonify({"err": "Invalid datetime format. Use YYYY-MM-DD HH:MM:SS"}), 400
 
-
+# Extension 4: Get Threaded Search
 def get_thread_posts(post_id):
     if post_id not in all_posts:
         return None
@@ -224,6 +226,7 @@ def search_thread(postId):
             else:
                 return jsonify({"err": "No Threads available for the given post."}), 400
 
+# Extension 5: User Based Range Query (All User Search)
 @app.route("/user/search/<int:userId>", methods = ["GET"])
 def search_user(userId):
     with lock_state:
