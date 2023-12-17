@@ -22,8 +22,6 @@ This project employs the `Flask` framework for the backend, which provides diver
 
 ## Steps for installation
 
-### Windows
-
 - Install python ,flask, Newman, Postman
 - Make sure your flask server is running
 
@@ -46,6 +44,26 @@ This project employs the `Flask` framework for the backend, which provides diver
 - We did not encounter any major issues as such.
 
 ## Extensions Implemented
+
+### Users and User Keys 
+
+- This feature enables the creation of users while maintaining a record of all the posts attributed to them.
+- Posts now include an additional user key, indicating the user responsible for their creation.
+
+### Replies
+
+- Users now have the ability to reply to other posts by adding a `replyId` key in the post, indicating the post being responded to.
+- Posts with replies will include the IDs of the posts that have replied to them.
+
+### Date Time Search
+
+- This extension facilitates searching for posts made between a specified start time and end time.
+
+### Threded Search
+- Threaded Search allows for the display of entire threads, including all posts with their respective replies.
+
+### User Search
+- Users can search for all posts made by a specific user using the user's ID.
 
 ## Endpoints
 
