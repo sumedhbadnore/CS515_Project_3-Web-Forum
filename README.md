@@ -13,7 +13,7 @@
 
 ## Github URL
 
-[Github Respository] (https://github.com/sumedhbadnore/CS_515_Project_3)
+[Github Respository](https://github.com/sumedhbadnore/CS_515_Project_3)
 
 ## Description
 
@@ -67,4 +67,37 @@ This project employs the `Flask` framework for the backend, which provides diver
 
 ## Endpoints
 
+### Endpoint #1: create a post with `POST /post`
 
+- The default behavior functions as intended. Allows to create a post.
+- Option to add `userid` specifying the user that made the post.
+- Oprtion to specify `replyId` specifying a post to be replied to.
+
+### Endpoint #2: read a post with `GET /post/{id}` 
+
+- A GET request to `/post` returns the post with the specified id.
+
+### Endpoint #3: delete a post with `DELETE /post/{{id}}/delete/{{key}}`
+
+- A DELETE request to `/post/{{id}}/delete/{{key}}` is meant to delete the post with id id.
+
+### Endpoint #4: create a user with `POST /user/create`
+
+- A POST request to `/user/create` will create a user with the following fields:
+
+- `username`: a string that is the username of the user to create. 
+- `userid`: a unique id assigned to every user.
+- `user_key`: a unique string assigned to every user.
+
+### Endpoint #5: Search user between a particular time period `GET /searchposts`
+
+- A GET request to `/searchposts` allows to search posts between a start time and an end time.
+- This is how search has to be made `hosts/searchposts?start_datettime=2023-12-14 22:48:00&end_datetime=2023-12-14 22:52:00`.
+
+### Endpoint #6: Threaded Search `GET /thread/{{id}}`
+
+- A GET request to `/thread/{{id}}` allows for search for threaded replies from the post with the specified `id`.
+
+### Endpoint #7: Searching all posts with a user `GET /user/search/{{userid}}`
+
+- A GET request to `/user/search/{{userid}}` searches all the posts associated with a specified user.

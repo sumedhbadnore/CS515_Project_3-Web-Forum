@@ -152,7 +152,7 @@ def create_user():
 
 
 # Extension 3: Date-Time search
-@app.route('/searchposts')
+@app.route('/searchposts', methods = ['GET'])
 def search_date_time():
     with lock_state:
         start_datetime_str = request.args.get('start_datetime')

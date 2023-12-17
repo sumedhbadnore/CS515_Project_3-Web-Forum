@@ -1,5 +1,5 @@
 #!/bin/sh
 
-# python -m pip install --upgrade pip
-# pip3 install flask
-# npm install -g newman
+sudo python -m pip install --upgrade pip
+sudo pip3 install flask
+sudo npm install -g newman
