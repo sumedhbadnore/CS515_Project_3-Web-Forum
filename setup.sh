@@ -2,8 +2,6 @@
 
 python3 -m pip install --upgrade pip
 pip3 install flask
-apt-get update
-apt-get install npm
-curl -sL https://deb.nodesource.com/setup_18.x | -E bash -
-apt-get install -y nodejs
-# npm install -g newman
+npm install -g n
+n latest
+node -v
