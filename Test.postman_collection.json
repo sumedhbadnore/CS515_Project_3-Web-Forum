@@ -24,7 +24,7 @@
 									"\r",
 									"pm.environment.set(\"id1\", jsonData.id);\r",
 									"pm.environment.set(\"key1\", jsonData.key);\r",
-									"pm.environment.set(\"timestamp\", jsonData.timestamp);"
+									"pm.environment.set(\"StartTime\", jsonData.timestamp);"
 								],
 								"type": "text/javascript"
 							}
@@ -876,6 +876,27 @@
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var currentDate = new Date();\r",
+									"\r",
+									"var EndDateTime = currentDate.getFullYear() + '-' +\r",
+									"    ('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' +\r",
+									"    ('0' + currentDate.getDate()).slice(-2) + ' ' +\r",
+									"    ('0' + currentDate.getHours()).slice(-2) + ':' +\r",
+									"    ('0' + currentDate.getMinutes()).slice(-2) + ':' +\r",
+									"    ('0' + currentDate.getSeconds()).slice(-2);\r",
+									"\r",
+									"pm.environment.set(\"EndTime\", EndDateTime);\r",
+									"\r",
 									""
 								],
 								"type": "text/javascript"
@@ -886,7 +907,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/searchposts?start_datetime=2023-12-16 04:10:00&end_datetime=2023-12-17 20:10:00",
+							"raw": "http://localhost:5000/searchposts?start_datetime={{StartTime}}&end_datetime={{EndTime}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -898,11 +919,11 @@
 							"query": [
 								{
 									"key": "start_datetime",
-									"value": "2023-12-16 04:10:00"
+									"value": "{{StartTime}}"
 								},
 								{
 									"key": "end_datetime",
-									"value": "2023-12-17 20:10:00"
+									"value": "{{EndTime}}"
 								}
 							]
 						}
