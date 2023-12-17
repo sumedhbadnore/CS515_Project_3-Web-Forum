@@ -11,6 +11,24 @@
 			"item": [
 				{
 					"name": "Post1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.environment.set(\"id1\", jsonData.id);\r",
+									"pm.environment.set(\"timestamp\", jsonData.timestamp);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -39,6 +57,25 @@
 				},
 				{
 					"name": "Post2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.environment.set(\"id2\", jsonData.id);\r",
+									"pm.environment.set(\"key2\", jsonData.key);\r",
+									"pm.environment.set(\"timestamp\", jsonData.timestamp);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -67,6 +104,25 @@
 				},
 				{
 					"name": "Post3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.environment.set(\"id3\", jsonData.id);\r",
+									"pm.environment.set(\"key3\", jsonData.key);\r",
+									"pm.environment.set(\"timestamp\", jsonData.timestamp);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -95,6 +151,25 @@
 				},
 				{
 					"name": "Post4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.environment.set(\"id4\", jsonData.id);\r",
+									"pm.environment.set(\"key4\", jsonData.key);\r",
+									"pm.environment.set(\"timestamp\", jsonData.timestamp);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -135,6 +210,94 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"post contents correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.msg).to.eql(\"A penny for your thoughts.\");\r",
+									"    pm.expect(jsonData.key === undefined);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"id1\", jsonData.id);\r",
+									"pm.environment.set(\"timestamp\", jsonData.timestamp);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/post/{{id1}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"post",
+								"{{id1}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get-3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"post contents correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.msg).to.eql(\"Actions speak louder than words.\");\r",
+									"    pm.expect(jsonData.key === undefined);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"id3\", jsonData.id);\r",
+									"pm.environment.set(\"timestamp\", jsonData.timestamp);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/post/{{id3}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"post",
+								"{{id3}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get-220",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Post not found\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -145,7 +308,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/post/1",
+							"raw": "http://localhost:5000/post/220",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -153,47 +316,7 @@
 							"port": "5000",
 							"path": [
 								"post",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get-3",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5000/post/3",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"post",
-								"3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get-22",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5000/post/22",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"post",
-								"22"
+								"220"
 							]
 						}
 					},
@@ -205,12 +328,12 @@
 			"name": "DELETE",
 			"item": [
 				{
-					"name": "Delete-1",
+					"name": "Delete-2",
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/post/3/delete/17b6fe650a02c751cee1a41727aedc60",
+							"raw": "http://localhost:5000/post/{{id2}}/delete/{{key2}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -218,7 +341,42 @@
 							"port": "5000",
 							"path": [
 								"post",
-								"3",
+								"{{id2}}",
+								"delete",
+								"{{key2}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete-220",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Post not found\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/post/220/delete/17b6fe650a02c751cee1a41727aedc60",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"post",
+								"220",
 								"delete",
 								"17b6fe650a02c751cee1a41727aedc60"
 							]
@@ -227,12 +385,25 @@
 					"response": []
 				},
 				{
-					"name": "Delete-13",
+					"name": "Delete - Forbidden",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Forbidden, 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/post/13/delete/17b6fe650a02c751cee1a41727aedc60",
+							"raw": "http://localhost:5000/post/{{id3}}/delete/{{key2}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -240,9 +411,9 @@
 							"port": "5000",
 							"path": [
 								"post",
-								"13",
+								"{{id3}}",
 								"delete",
-								"17b6fe650a02c751cee1a41727aedc60"
+								"{{key2}}"
 							]
 						}
 					},
@@ -255,6 +426,25 @@
 			"item": [
 				{
 					"name": "EX1 - Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"userid1\", jsonData.userid);\r",
+									"pm.environment.set(\"userkey1\", jsonData.userkey);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -284,12 +474,26 @@
 				},
 				{
 					"name": "User Post1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"msg\": \"New York Chutiya hai\",\r\n    \"userid\": 0\r\n}",
+							"raw": "{\r\n    \"msg\": \"Love New York City.\",\r\n    \"userid\": {{userid1}}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -317,7 +521,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"msg\": \"New York Chutiya hai\",\r\n    \"userid\": 0\r\n}",
+							"raw": "{\r\n    \"msg\": \"I tried carrying the weight of the world.\",\r\n    \"userid\": {{userid1}}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -344,7 +548,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/user/search/0",
+							"raw": "http://localhost:5000/user/search/{{userid1}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -353,19 +557,33 @@
 							"path": [
 								"user",
 								"search",
-								"0"
+								"{{userid1}}"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Ex-3 Date Queries",
+					"name": "EX-3 Date Queries",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/searchposts?start_datetime=2023-12-16 04:10:00&end_datetime=2023-12-16 20:10:00",
+							"raw": "http://localhost:5000/searchposts?start_datetime=2023-12-16 04:10:00&end_datetime=2023-12-17 20:10:00",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -381,7 +599,7 @@
 								},
 								{
 									"key": "end_datetime",
-									"value": "2023-12-16 20:10:00"
+									"value": "2023-12-17 20:10:00"
 								}
 							]
 						}
@@ -395,7 +613,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"msg\": \"Reply to 15\",\r\n    \"replyId\": 15\r\n}",
+							"raw": "{\r\n    \"msg\": \"Reply to post3\",\r\n    \"replyId\": {{id3}}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -417,7 +635,20 @@
 					"response": []
 				},
 				{
-					"name": "Ex-4 Thread Search",
+					"name": "EX-4 Thread Search",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
