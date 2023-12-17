@@ -108,27 +108,6 @@ def delete_post(post_id, inp_key):
         else:
             return jsonify({"err": "Forbidden"}), 403
         
-# @app.route('/post/<int:inp_id>/delete/<string:inp_key>', methods = ['DELETE'])
-# def delete_post(inp_id, inp_key):
-#     with lock_state:
-#         global all_posts
-
-#         if inp_id not in all_posts:
-#             return jsonify({'err':'Post not found'}), 404
-        
-#         else:
-#             my_post = all_posts[inp_id]
-#             if my_post['key'] == inp_key:
-#                 del all_posts[inp_id]
-#                 print("Deleted Successfully!")          # Testing purpose
-#                 return jsonify({
-#                     'id': my_post.get('id'),
-#                     'key': my_post.get('key'),
-#                     'timestamp': my_post.get('timestamp')
-#                 })
-            
-#             else:
-#                 return jsonify({'err':'Forbidden'}), 403
             
 @app.route('/user/create', methods = ['POST'])
 def create_user():
@@ -171,6 +150,7 @@ def create_user():
             print("Triggered")
             return jsonify({'err':'Bad request'}), 400
 
+
 # Extension 3: Date-Time search
 @app.route('/searchposts')
 def search_date_time():
@@ -212,10 +192,6 @@ def get_thread_posts(post_id):
 
     for reply_id in replies:
         thread_posts.extend(get_thread_posts(reply_id))
-    
-    # if "replyId" in all_posts[post_id] and all_posts[post_id]["replyId"] not in thread_posts:
-    #     temp = all_posts[post_id]["replyId"]
-    #     thread_posts.insert(0,temp)
 
     return thread_posts
 
@@ -235,9 +211,6 @@ def search_thread(postId):
                 for i in replies_arr:
                     full_replies_arr.append(all_posts[i])
 
-                    # if "replyId" in all_posts[i] and all_posts[i]["replyId"] not in replies_arr:
-                    #     temp = all_posts[i]["replyId"]
-                    #     full_replies_arr.insert(0,all_posts[temp])
 
                 return jsonify({"replies": full_replies_arr})
             else:
