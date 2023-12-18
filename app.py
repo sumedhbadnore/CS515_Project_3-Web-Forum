@@ -159,7 +159,7 @@ def search_date_time():
         end_datetime_str = request.args.get('end_datetime')
 
         try:
-            start_datetime = datetime.strptime(start_datetime_str, "%Y-%m-%d %H:%M:%S") if start_datetime_str else None
+            start_datetime = datetime.strptime(start_datetime_str, "%Y-%m-%dT%H:%M:%S.%f%z") if start_datetime_str else None
             end_datetime = datetime.strptime(end_datetime_str, "%Y-%m-%d %H:%M:%S") if end_datetime_str else None
 
             filtered_posts = []
@@ -168,7 +168,7 @@ def search_date_time():
 
             for post in all_posts:
                 my_post = all_posts[post]
-                post_timestamp = datetime.strptime(my_post.get("timestamp"), "%Y-%m-%d %H:%M:%S").isoformat()
+                post_timestamp = datetime.strptime(my_post.get("timestamp"), "YYYY-MM-DD HH:MM:SS.mmmmmm")
 
                 if start_datetime and post_timestamp < start_datetime:
                     continue
