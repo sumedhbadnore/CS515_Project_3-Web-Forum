@@ -886,17 +886,11 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
+									"\r",
 									"var currentDate = new Date();\r",
+									"var formattedDate = currentDate.toISOString().slice(0, 23);\r",
 									"\r",
-									"var EndDateTime = currentDate.getFullYear() + '-' +\r",
-									"    ('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' +\r",
-									"    ('0' + currentDate.getDate()).slice(-2) + ' ' +\r",
-									"    ('0' + currentDate.getHours()).slice(-2) + ':' +\r",
-									"    ('0' + currentDate.getMinutes()).slice(-2) + ':' +\r",
-									"    ('0' + currentDate.getSeconds()).slice(-2);\r",
-									"\r",
-									"pm.environment.set(\"EndTime\", EndDateTime);\r",
-									"\r",
+									"pm.environment.set(\"EndTime\", formattedDate);\r",
 									""
 								],
 								"type": "text/javascript"
