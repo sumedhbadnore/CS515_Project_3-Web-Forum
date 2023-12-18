@@ -168,7 +168,7 @@ def search_date_time():
 
             for post in all_posts:
                 my_post = all_posts[post]
-                post_timestamp = datetime.strptime(my_post.get("timestamp"), "%Y-%m-%d %H:%M:%S")
+                post_timestamp = datetime.strptime(my_post.get("timestamp"), "%Y-%m-%d %H:%M:%S").isoformat()
 
                 if start_datetime and post_timestamp < start_datetime:
                     continue
