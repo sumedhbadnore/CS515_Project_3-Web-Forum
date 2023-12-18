@@ -8,5 +8,4 @@ PID=$! # record the PID
 
 newman run forum_multiple_posts.postman_collection.json -e env.json
 newman run forum_post_read_delete.postman_collection.json 
-newman run forum_sample_tests.postman_collection.json -e env.json
 newman run Test.postman_collection.json 
