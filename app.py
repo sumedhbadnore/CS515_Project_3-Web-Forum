@@ -30,7 +30,7 @@ def new_post():
                 post = {
                     'id': post_id,
                     'key': post_key,
-                    'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    'timestamp': datetime.now().isoformat(),
                     'msg': input_msg
                 }
 
